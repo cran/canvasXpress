@@ -1,6 +1,6 @@
-66c81c39f16592885594a7cb7a1c80a1 *DESCRIPTION
+4423c036c5b851296284e3816cb41dba *DESCRIPTION
 9be4c9f78c58f392ffbf93ad502d685a *NAMESPACE
-8a43a32ac83c5960277ed7ebfef30efb *NEWS.md
+d9df64c1158137c054cee696e6ac7e5c *NEWS.md
 84a2806921fb60b13f996fcf0139561d *R/canvasXpress.R
 2beeeeab0834386909a9b85cb3e8d2e8 *R/internal_functionality.R
 c8c1ecddeaa3207f47be7db1a83f67c3 *R/shiny_examples.R
@@ -10,8 +10,8 @@ a368138ca7a62cd0625ccbb907dd9281 *build/vignette.rds
 996472f89ea1daed2b4155c267596e47 *inst/doc/getting_started.html
 9a43006dcfab3184fffd392772c28ecd *inst/htmlwidgets/canvasXpress.js
 4266aac1796312256dc29b9787ec3756 *inst/htmlwidgets/canvasXpress.yaml
-abe633a85bc09e8b2e6af76058a366f5 *inst/htmlwidgets/lib/canvasXpress/canvasXpress.css
-8e1ad5dfef367807f5c693fa96096f53 *inst/htmlwidgets/lib/canvasXpress/canvasXpress.min.js
+d7c832dbb1f28f9e9e97e0573e3b1c61 *inst/htmlwidgets/lib/canvasXpress/canvasXpress.css
+590c738178982554fccdb48f7d246343 *inst/htmlwidgets/lib/canvasXpress/canvasXpress.min.js
 0b48b9fa3a277fb928fc0560a2422839 *inst/shiny-examples/example1/server.R
 6166dff06011196a561eeff922b00c8c *inst/shiny-examples/example1/ui.R
 8d1719929fddb3c48147c190f1498dc9 *inst/shiny-examples/example2/GSE9750-sm2.rds
