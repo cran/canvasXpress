@@ -1,11 +1,15 @@
 ---
 title:  "CanvasXpress R Library"
-output: html_document
+output: 
+    html_document:
+        self_contained: no
 ---
 
-<a href="http://www.canvasxpress.org"><img src="http://www.canvasxpress.org/images/brand3.png" align="left" hspace="10" vspace="6" width="100"></a>
+<a href="http://www.canvasxpress.org"><img src="vignettes/images/brand3.png" align="left" hspace="10" vspace="6" width="100"></a>
 
 <!-- Badge Location -->
+
+<!-- End Badges -->
 
 ***canvasXpress*** was developed as the core visualization component for bioinformatics and systems biology analysis
 at Bristol-Myers Squibb. It supports a large number of [visualizations ](http://www.canvasxpress.org/html/gallery.html)to display scientific and non-scientific
@@ -35,7 +39,7 @@ canvasXpress(t(data), varAnnot=varAnnot, graphType='Scatter3D', colorBy='Species
 ```
 ![Scatter3D](vignettes/images/R-Scatter3D.png)
 
-### Scatter 2D Plot Example
+### Scatter 2D Matrix Plot Example
 
 ```r
 data <- t(iris[,1:4])
@@ -43,7 +47,7 @@ varAnnot <- as.matrix(iris[,5])
 colnames(varAnnot) <- "Species"
 canvasXpress(t(data), varAnnot=varAnnot, scatterPlotMatrix=1, colorBy='Species')
 ```
-![Scatter2D](vignettes/images/R-Scatter2D.png)
+![Scatter2DMatrix](vignettes/images/R-Scatter2DMatrix.png)
 
 ### Boxplot Example
 
