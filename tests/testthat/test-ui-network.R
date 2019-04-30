@@ -26,7 +26,7 @@ test_that("cXnetwork4", {
 test_that("cXnetwork5", {
     check_ui_test(cXnetwork5())
 
-    warning('some lines missing, cross-domain download issue')
+    warning('some lines are missing compared to web example')
 })
 
 test_that("cXnetwork6", {
