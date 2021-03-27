@@ -13,8 +13,14 @@ HTMLWidgets.widget({
         return {
             id: c.id,
             renderValue: function(x) {
-                try{CanvasXpress.destroy(c.id);}
-                catch(err) {/*do nothing*/}
+                try{
+                    for (var i = 0; i < CanvasXpress.instances.length; i++) {
+                        if (CanvasXpress.instances[i].target.match(c.id)) {
+                            CanvasXpress.destroy(CanvasXpress.instances[i].target);
+                        }
+                    }
+                }
+                catch(err) {console.log(err);}
                 if (!(x instanceof Array)) {
                     x.renderTo = c.id;
                     new CanvasXpress(x);
