@@ -1,5 +1,5 @@
 Package: canvasXpress
-Version: 1.35.0
+Version: 1.37.0
 Title: Visualization Package for CanvasXpress in R
 Description: Enables creation of visualizations using the CanvasXpress framework
     in R. CanvasXpress is a standalone JavaScript library for reproducible research
@@ -16,16 +16,15 @@ Authors@R: c(
 URL: https://github.com/neuhausi/canvasXpress
 BugReports: https://github.com/neuhausi/canvasXpress/issues
 Depends: R (>= 3.5)
-Imports: htmlwidgets (>= 1.0), httr, stats
-RoxygenNote: 7.1.1
+Imports: htmlwidgets (>= 1.0), htmltools, httr, jsonlite, stats
+RoxygenNote: 7.1.2
 Suggests: shiny (>= 1.1.0), canvasXpress.data, dplyr, glue, grid,
-        knitr, png, readr, rmarkdown, testthat, tibble, tidyr, webshot,
-        limma
+        knitr, png, readr, rmarkdown, testthat, tibble, tidyr, limma
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2021-06-25 19:18:22 UTC; conniebrett
+Packaged: 2021-11-25 19:41:03 UTC; conniebrett
 Author: Isaac Neuhaus [aut],
   Connie Brett [aut, cre]
 Maintainer: Connie Brett <connie@aggregate-genius.com>
 Repository: CRAN
-Date/Publication: 2021-06-25 19:40:02 UTC
+Date/Publication: 2021-11-26 14:10:02 UTC

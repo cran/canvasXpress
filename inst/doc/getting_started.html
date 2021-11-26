@@ -12,7 +12,7 @@
 
 <meta name="author" content="Isaac Neuhaus" />
 
-<meta name="date" content="2021-06-25" />
+<meta name="date" content="2021-11-25" />
 
 <title>Getting Started with canvasXpress in R</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Getting Started with canvasXpress in R</h1>
 <h4 class="author">Isaac Neuhaus</h4>
-<h4 class="date">2021-06-25</h4>
+<h4 class="date">2021-11-25</h4>
 
 
 <div id="TOC">
@@ -212,9 +212,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="boxplot" class="section level3">
 <h3>Boxplot</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;https://canvasxpress.org/data/cX-iris-dat.txt&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, </span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;https://www.canvasxpress.org/data/cX-toothgrowth-dat.txt&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">quote=</span><span class="st">&quot;&quot;</span>, <span class="at">row.names=</span><span class="dv">1</span>, <span class="at">fill=</span><span class="cn">TRUE</span>, <span class="at">check.names=</span><span class="cn">FALSE</span>, <span class="at">stringsAsFactors=</span><span class="cn">FALSE</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;https://canvasxpress.org/data/cX-iris-smp.txt&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;https://www.canvasxpress.org/data/cX-toothgrowth-smp.txt&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">quote=</span><span class="st">&quot;&quot;</span>, <span class="at">row.names=</span><span class="dv">1</span>, <span class="at">fill=</span><span class="cn">TRUE</span>, <span class="at">check.names=</span><span class="cn">FALSE</span>, <span class="at">stringsAsFactors=</span><span class="cn">FALSE</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                </span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">canvasXpress</span>(<span class="at">data                  =</span> y,</span>
