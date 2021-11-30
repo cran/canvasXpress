@@ -1,8 +1,8 @@
-689fa288f16091df4080f057574b358a *DESCRIPTION
+5c7a06d27d067160e1d3732d7fd87806 *DESCRIPTION
 393e4cae5187c69b22780f84cefa6589 *NAMESPACE
-ed7ab8dfc6562121f7943b69371b43de *NEWS.md
+2bbbb73729f2af85f78c6723c359779f *NEWS.md
 6d1a1c5621d027eadfc81f5780a66a07 *R/canvasXpress.R
-ae94abd25447d7a1f8ab7bd9c8ba3754 *R/html_functionality.R
+c198c73587b80521a28b098859e82614 *R/html_functionality.R
 51a6306c021d4c48fb5f54b0e83f2a2d *R/internal_functionality.R
 1e360da1936838f7a4bc2bfa9cd04da2 *R/shiny_examples.R
 9f204f6a3fd873a0a741f043927ae70e *R/shiny_functionality.R
@@ -10,9 +10,9 @@ ae94abd25447d7a1f8ab7bd9c8ba3754 *R/html_functionality.R
 b8d935f5172a18e0348a5abd6e663af9 *build/vignette.rds
 4c2ab3185e75440caf72da1393277f99 *inst/README-known_issues.md
 7e33b49765829f52cb71f7f1c75cb4b4 *inst/doc/additional_examples.Rmd
-ba8f4b3efbc14c3ece207ac506bc663e *inst/doc/additional_examples.html
+8e56eb587bf09d8fb7af91f453e4d3ca *inst/doc/additional_examples.html
 ca85eb9bc9a720bbd8960485899b962a *inst/doc/getting_started.Rmd
-ac2f8738dccd4ddea7211734df827d12 *inst/doc/getting_started.html
+b6af6a836bbc97b525641b47bf6f74f6 *inst/doc/getting_started.html
 0eea66b29a9d7270ed3827eb5661a37f *inst/htmlwidgets/canvasXpress.js
 cb841e12ecbed91be82b4c3dad9cf185 *inst/htmlwidgets/canvasXpress.yaml
 5b0a768bfd88568f8fceb356ef4355f6 *inst/htmlwidgets/lib/canvasXpress/canvasXpress.css
@@ -31,7 +31,7 @@ f2bb24f59d3601a08a86cff6dc816343 *inst/shiny-examples/example2/server.R
 d34482ca9ecd6ca53cc23747d06262d6 *man/canvasXpress.Rd
 5597a7d63b8a4e0af9c0417b1bcb6e17 *man/canvasXpress.json.Rd
 74b0e87c72a620a6252fd2de5cb60bab *man/canvasXpressOutput.Rd
-a854605a8a12b85de0cca05982b4ec64 *man/cxHtmlPage.Rd
+c037f7956f90149abdc33f4a27e50286 *man/cxHtmlPage.Rd
 642a0b71a77b56ddbeac2b14755e49f4 *man/cxShinyExample.Rd
 f5c6ae861df9a68ed83c949f213bd415 *man/renderCanvasXpress.Rd
 9c5e369da0537af531e0b49465a7504e *tests/testthat.R
@@ -43,7 +43,7 @@ a901f35f53b2c8a139d77f40019eb3ac *tests/testthat/test-other--BASE.R
 5db6b0885bffaf0a87602a6000a2abdf *tests/testthat/test-other-boxplot-grouping.R
 b4398c2586ad9632241c32bf0413c3fe *tests/testthat/test-other-color-setting.R
 993660c9a4d47f4ec505adffa7e50ff3 *tests/testthat/test-other-custom-events.R
-ff7483df2d6784b04bfa10723f54d3d5 *tests/testthat/test-other-cxHtmlPage.R
+080102ead2b54af5aaa7bd1d8c37a07f *tests/testthat/test-other-cxHtmlPage.R
 6ec43b3925f3050e15a91b9f229500d9 *tests/testthat/test-other-data-url.R
 547956ab7011c2ccde0711cd4862bd5f *tests/testthat/test-other-decorations.R
 6cd6c1ecf420b1c18521d9768bee43e7 *tests/testthat/test-other-differentiated-groups.R
