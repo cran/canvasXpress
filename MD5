@@ -1,6 +1,6 @@
-a0888b0fdfa99f2ea6bc7c1862afb68e *DESCRIPTION
+b72d1e06a58e45a89b025c6f5848c0c6 *DESCRIPTION
 393e4cae5187c69b22780f84cefa6589 *NAMESPACE
-0d588891b1007ff0721d92ca1bcb72e1 *NEWS.md
+beccc7a05632360783d509dfc2bf01d5 *NEWS.md
 23456e1cb9305474eac0d3699bdcabc6 *R/canvasXpress.R
 5174cf05332e63bbe80a97de19ae2b21 *R/ggplot_as_list.R
 c198c73587b80521a28b098859e82614 *R/html_functionality.R
@@ -11,13 +11,13 @@ c198c73587b80521a28b098859e82614 *R/html_functionality.R
 e3acd16fe0eef1d3af479fd639d3b982 *build/vignette.rds
 4c2ab3185e75440caf72da1393277f99 *inst/README-known_issues.md
 7e33b49765829f52cb71f7f1c75cb4b4 *inst/doc/additional_examples.Rmd
-7af818f5b009fc0c40907000260cbb9e *inst/doc/additional_examples.html
+97d68058a8932c3e4487a4606a7a5a7b *inst/doc/additional_examples.html
 ca85eb9bc9a720bbd8960485899b962a *inst/doc/getting_started.Rmd
-cdd841c28337ec0b4ca0b63103ac0d94 *inst/doc/getting_started.html
+8caff937d8b9561d53eccb1a68b9e0e4 *inst/doc/getting_started.html
 d4f82ee2430de99c6b2d2962df316802 *inst/htmlwidgets/canvasXpress.js
-009c421cea5dbde8ac04072bf8ac5150 *inst/htmlwidgets/canvasXpress.yaml
-887156d444dd5acf928f3daafd688531 *inst/htmlwidgets/lib/canvasXpress/canvasXpress.css
-e8bdba3717d25daea3b3fb8c757a0754 *inst/htmlwidgets/lib/canvasXpress/canvasXpress.min.js
+a276ca1da30968cae65c2066209710e1 *inst/htmlwidgets/canvasXpress.yaml
+e98fad5995cda24ea16866e056a40f41 *inst/htmlwidgets/lib/canvasXpress/canvasXpress.css
+03dfac17ea45a9458619d0bb8f5486d2 *inst/htmlwidgets/lib/canvasXpress/canvasXpress.min.js
 7f7908eef2487083be72bef5be895cb0 *inst/shiny-examples/example1/server.R
 e40d084821711677671143531d9fb706 *inst/shiny-examples/example1/ui.R
 e9bf938357dee29331eac5fb2cb939d8 *inst/shiny-examples/example2/global.R
