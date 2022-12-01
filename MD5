@@ -1,6 +1,6 @@
-064d4f003bc15150595d1c35b16cfcf1 *DESCRIPTION
+2d8af62d8e59e1de604db6529775f9c5 *DESCRIPTION
 393e4cae5187c69b22780f84cefa6589 *NAMESPACE
-3b9269b2497e21d7df769fba1de13974 *NEWS.md
+c9fc0e880fda69e116333d95a553d815 *NEWS.md
 23456e1cb9305474eac0d3699bdcabc6 *R/canvasXpress.R
 5174cf05332e63bbe80a97de19ae2b21 *R/ggplot_as_list.R
 c198c73587b80521a28b098859e82614 *R/html_functionality.R
@@ -11,10 +11,10 @@ c198c73587b80521a28b098859e82614 *R/html_functionality.R
 e3acd16fe0eef1d3af479fd639d3b982 *build/vignette.rds
 4c2ab3185e75440caf72da1393277f99 *inst/README-known_issues.md
 7e33b49765829f52cb71f7f1c75cb4b4 *inst/doc/additional_examples.Rmd
-8be73981de4608cd3a8a53cfa38fd0bd *inst/doc/additional_examples.html
+6f997793e64ee410601707bfe1bfc7f6 *inst/doc/additional_examples.html
 ca85eb9bc9a720bbd8960485899b962a *inst/doc/getting_started.Rmd
-5c0c36cbae5bcf2c757b53a2703b0a20 *inst/doc/getting_started.html
-d4f82ee2430de99c6b2d2962df316802 *inst/htmlwidgets/canvasXpress.js
+f8db7e10c7276764309b78d90be959b3 *inst/doc/getting_started.html
+7986a89dc46aec3e22ef59b45b40950b *inst/htmlwidgets/canvasXpress.js
 888554941fbb89f75b6f63cbc9ac6891 *inst/htmlwidgets/canvasXpress.yaml
 7ca8c1cd0e49fc8fc678a8eb3553bc6a *inst/htmlwidgets/lib/canvasXpress/canvasXpress.css
 caf47ac17cd7aa0294281f5209e1f46b *inst/htmlwidgets/lib/canvasXpress/canvasXpress.min.js
@@ -40,7 +40,7 @@ b8997ad967a26fbe320258d2913e970c *tests/testthat/setup.R
 a149574a68c04d25d32a6bf6d649847d *tests/testthat/teardown.R
 aa47bd5ac89dcc32ad8ae0827e737f8e *tests/testthat/test-ggplot.R
 ddd1099004f60cf40dd29aaa4c4b3baa *tests/testthat/test-manual-transform.R
-4a8b827e4cc7ec1f85e2b5b842925bd1 *tests/testthat/test-other--BASE.R
+4e1dd25bf0b1249887a090e8af7d7afc *tests/testthat/test-other--BASE.R
 0de946e8165c72a038b765800da48fd6 *tests/testthat/test-other-bar-data-types.R
 5db6b0885bffaf0a87602a6000a2abdf *tests/testthat/test-other-boxplot-grouping.R
 b4398c2586ad9632241c32bf0413c3fe *tests/testthat/test-other-color-setting.R
