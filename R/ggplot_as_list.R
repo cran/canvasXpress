@@ -8,8 +8,8 @@ ggplot.as.list <- function(o, ...) {
 
   if (!(requireNamespace("ggplot2", quietly = TRUE))) {
     stop("The ggplot2 package is required to use this functionality.")
-  } else if (!("ggplot") %in% class(o)) {
-    stop("Not a ggplot object")
+  } else if (!("ggplot") %in% class(o) && !("ggmatrix") %in% class(o)) {
+    stop("Not a ggplot or ggmatrix object")
   }
 
   if (("patchwork") %in% class(o)) {
@@ -33,12 +33,59 @@ ggplot.as.list <- function(o, ...) {
       p[[i]] <- gg_cxplot(o[[i]], t)
     }
     cx$datasets <- p
+  } else if (("ggmatrix") %in% class(o)) {
+    d <- o$data
+    l <- length(o$plots)
+    c <- o$ncol
+    r <- o$nrow
+    cx <- list(...)
+    cx$length <- l
+    cx$isGGPlot <- TRUE
+    cx$isGGMatrix <- TRUE
+    cx$isR <- TRUE
+    ## Find the longest in the data frame which will be used to calculate the margins
+    v <- stats::na.omit(unlist(lapply(d, as.character)))
+    z <- ""
+    if (length(v) > 0) {
+        z <- v[which.max(nchar(v))]
+    }
+    cx$longestString <- as.character(unlist(z))
+    if (!is.null(c)) {
+      cx$cols <- c
+    }
+    if (!is.null(r)) {
+      cx$rows <- r
+    }
+    p <- list()
+    for (i in 1:l) {
+      t      <- paste("canvas", i, sep = "-")
+      p[[i]] <- gg_cxplot(o$plots[[i]], t)
+      p[[i]]$isGGMatrix <- cx$longestString
+    }
+    cx$datasets <- p
   } else {
     cx <- gg_cxplot(o, "canvas", ...)
   }
 
   jsonlite::toJSON(cx, pretty = TRUE, auto_unbox = TRUE)
 }
+
+#longest <- sapply(d, function(col) {
+#  if (is.character(col) || is.factor(col) || is.numeric(col)) {
+#    # Convert column to character and remove any NA values
+#    col_char <- as.character(col)
+#    col_char_no_na <- col_char[!is.na(col_char)]
+#    # If the column is empty after removing NAs, return an empty string
+#    if (length(col_char_no_na) == 0) {
+#      return("")
+#    }
+#    # Return the element with the maximum number of characters
+#    return(col_char_no_na[which.max(nchar(col_char_no_na))])
+#  } else {
+#    # For other column types, return an empty string
+#    return("")
+#  }
+#})
 
 gg_cxplot <- function(o, target, ...) {
 
@@ -130,16 +177,22 @@ gg_cxplot <- function(o, target, ...) {
         p$size <- bld$data[[i]]$size
         p$shape <- bld$data[[i]]$shape
       }
+    } else if (l == "GeomSmooth") {
+      p$dataColor = unique(bld$data[[i]]$colour)
+      p$dataFill = unique(bld$data[[i]]$fill)
+      p$dataAlpha = unique(bld$data[[i]]$alpha)
     } else if (l == "GeomStep") {
       if (("kmCxplot") %in% names(config)) {
         p$kmCxplot <- TRUE
         p$showKMConfidenceIntervals <- config$showKMConfidenceIntervals
         p$kmRiskTable <- config$kmRiskTable
         p$kmColors <- unique(p$data$color)
-        within(cx$config, rm("kmCxplot"))
-        within(cx$config, rm("showKMConfidenceIntervals"))
-        within(cx$config, rm("kmRiskTable"))
-        within(p, rm(data))
+        cx$config <- within(cx$config, {
+          rm(kmCxplot)
+          rm(showKMConfidenceIntervals)
+          rm(kmRiskTable)
+        })
+        p <- within(p, rm(data))
       }
     } else if (l == "GeomDensityRidges") {
       p$bandwidthAdjust <- bld$data[[i]]$x[2] - bld$data[[i]]$x[1]
@@ -166,6 +219,10 @@ gg_cxplot <- function(o, target, ...) {
       p$col <- bld$data[[i]]$colour
       p$label <- bld$data[[i]]$label
       p$panel <- bld$data[[i]]$PANEL
+    } else if (l == "GeomTextNpc") {
+      p$label <- bld$data[[i]]$label
+      p$npcx <- bld$data[[i]]$npcx
+      p$npcy <- bld$data[[i]]$npcy
     }
     p$stat <- proto_stat[i]
     q <- list()
@@ -299,6 +356,10 @@ gg_theme <- function(o) {
     if (is.list(e[[a]]) || ("S7_object" %in% class(e[[a]]))) {
       attrs_values  <- e[[a]]
       if (("S7_object" %in% class(e[[a]])) && requireNamespace("S7", quietly = TRUE)) {
+          if ("element_blank" %in% class(attrs_values)) {
+            t[[a]] <- "element_blank"
+            next
+          }
           attrs_values <- S7::props(e[[a]])
       }
 
@@ -343,7 +404,6 @@ gg_theme <- function(o) {
   t
 }
 
-
 gg_scales <- function(o, b) {
   if (missing(o)) {
     o <- ggplot2::last_plot()
@@ -381,6 +441,9 @@ gg_scales <- function(o, b) {
           r$colorLimits <- b[[3]]$scales$scales[[1]]$limits
         }
         r$colorScale <- c
+        if (!is.null(s$name) && length(s$name) > 0) {
+          r$colorLegendTitle <- s$name
+        }
         w <- w + 1
       } else if (s$aesthetics[1] == "colour") {
         c <- class(s)[1]
@@ -408,11 +471,18 @@ gg_scales <- function(o, b) {
           r$colorLimits2 <- b[[3]]$scales$scales[[1]]$limits
         }
         r$colorScale2 <- c
+        if (!is.null(s$name) && length(s$name) > 0) {
+          r$colorLegendTitle <- s$name
+        }
         w <- w + 1
       } else if (s$aesthetics[1] == "x") {
         if (!is.null(s$limits)) {
           r$setMinX <- s$limits[1]
           r$setMaxX <- s$limits[2]
+        } else {
+          r$xAxisSetValues <- b$layout$panel_params[[1]]$x$breaks
+          r$xAxisSetMinorValues <- b$layout$panel_params[[1]]$x$minor_breaks
+          r$xAxisTicks <- length(b$layout$panel_params[[1]]$x$breaks)
         }
         if (!is.null(s$trans$name) && s$trans$name != "identity") {
           r$xAxisTransform <- stringr::str_replace(s$trans$name, "-", "")
@@ -420,13 +490,14 @@ gg_scales <- function(o, b) {
         if (is.character(s$name)) {
           r$xAxisTitle <- s$name
         }
-        r$xAxisSetValues <- b$layout$panel_params[[1]]$x$breaks
-        r$xAxisSetMinorValues <- b$layout$panel_params[[1]]$x$minor_breaks
-        r$xAxisTicks <- length(b$layout$panel_params[[1]]$x$breaks)
       } else if (s$aesthetics[1] == "y") {
         if (!is.null(s$limits)) {
           r$setMinY <- s$limits[1]
           r$setMaxY <- s$limits[2]
+        } else {
+          r$yAxisSetValues <- b$layout$panel_params[[1]]$y$breaks
+          r$yAxisSetMinorValues <- b$layout$panel_params[[1]]$y$minor_breaks
+          r$yAxisTicks <- length(b$layout$panel_params[[1]]$y$breaks)
         }
         if (!is.null(s$trans$name) && s$trans$name != "identity") {
           r$yAxisTransform <- stringr::str_replace(s$trans$name, "-", "")
@@ -434,9 +505,8 @@ gg_scales <- function(o, b) {
         if (is.character(s$name)) {
           r$yAxisTitle <- s$name
         }
-        r$yAxisSetValues <- b$layout$panel_params[[1]]$y$breaks
-        r$yAxisSetMinorValues <- b$layout$panel_params[[1]]$y$minor_breaks
-        r$yAxisTicks <- length(b$layout$panel_params[[1]]$y$breaks)
+      } else if (s$aesthetics[1] == "pattern" || s$aesthetics[1] == "pattern_spacing" || s$aesthetics[1] == "pattern_angle") {
+        r$colors <- list(unique(b$data[[1]]$fill))
       }
     }
     if (w == 1) {
@@ -471,12 +541,17 @@ gg_scales <- function(o, b) {
   } else {
     n <- length(b[[3]]$scales$scales)
     k <- FALSE
+    h <- colnames(b$data[[1]])
     if (n > 0) {
       for (i in 1:n) {
         if (!is.null(b[[3]]$scales$scales[[i]]$palette.cache)) {
-          r$colors <- b[[3]]$scales$scales[[i]]$palette.cache
-          k <- TRUE
-          break
+          if (b[[3]]$scales$scales[[i]]$aesthetics[1] == "pattern") {
+            r$patterns <- b[[3]]$scales$scales[[i]]$palette.cache
+          } else {
+            r$colors <- b[[3]]$scales$scales[[i]]$palette.cache
+            k <- TRUE
+            break
+          }
         }
       }
     }
@@ -492,6 +567,12 @@ gg_scales <- function(o, b) {
               if (length(cols) == 1) {
                 r$cXscatterColor <- unique(b$data[[1]]$color)
               }
+            } else {
+              l <- sapply(o$layers, function(x) class(x$geom)[1])
+              if ("GeomDumbbell" %in% l) {
+                cl <- cols[1];
+                cols <- c(cl, cl, cl)
+              }
             }
           }
         }
@@ -503,6 +584,27 @@ gg_scales <- function(o, b) {
       r$colors <- cols
     }
   }
+  layers <- sapply(o$layers, function(x) class(x$geom)[1])
+  for (i in 1:length(layers)) {
+    l <- layers[i]
+    if (regexpr("Pattern", l)[1] > 0) {
+      if (l == "GeomViolinPattern") {
+        r$data_pattern <- unique(b$data[[i]]$pattern)
+        r$data_pattern_spacing <- list(unique(b$data[[i]]$pattern_spacing))
+        r$data_pattern_angle <- list(unique(b$data[[i]]$pattern_angle))
+        r$data_pattern_density <- list(unique(b$data[[i]]$pattern_density))
+        r$data_pattern_fill <- list(unique(b$data[[i]]$pattern_fill))
+        r$data_pattern_color <- list(unique(b$data[[i]]$pattern_colour))
+      } else {
+        r$data_pattern <- b$data[[i]]$pattern
+        r$data_pattern_spacing <- b$data[[i]]$pattern_spacing
+        r$data_pattern_angle <- b$data[[i]]$pattern_angle
+        r$data_pattern_density <- b$data[[i]]$pattern_density
+        r$data_pattern_fill <- b$data[[i]]$pattern_fill
+        r$data_pattern_color <- b$data[[i]]$pattern_colour
+      }
+    }
+  }
   tx <- as.character(b$layout$coord$trans$y)[1]
   ty <- as.character(b$layout$coord$trans$y)[1]
   if (!is.na(tx)) {
@@ -512,6 +614,14 @@ gg_scales <- function(o, b) {
   if (!is.na(ty)) {
     r$yAxisTransform <- stringr::str_replace(ty, "-", "")
     r$yAxisTransformLinearTicks <- TRUE
+  }
+  ## Sizes
+  n <- length(b$data)
+  for (i in 1:n) {
+    if (!is.null(b$data[[i]]$shape) && !is.null(b$data[[i]]$size)) {
+      r$sizes <- floor(unique(ceiling(sort(b$data[[i]]$size)) * 3))
+      break
+    }
   }
   r
 }
@@ -534,6 +644,10 @@ gg_coordinates <- function(o) {
     if (!is.null(o$coordinates[[i]])) {
       r[[i]] <- o$coordinates[[i]]
     }
+  }
+  f <- class(o$coordinates)[1]
+  if (f == "CoordFlip") {
+    r$flip <- TRUE
   }
   r
 }
@@ -571,12 +685,13 @@ gg_mapping <- function(o, b) {
     o <- ggplot2::last_plot()
   }
   r <- list()
-  m <- c("x", "y", "z", "xmin", "xmax", "ymin", "ymax", "zmin", "zmax", "weight", "group", "colour", "fill", "size", "alpha", "linetype", "label", "vjust", "sample")
+  m <- c("x", "y", "z", "xmin", "xmax", "xend", "ymin", "ymax", "yend", "zmin", "zmax", "weight", "group", "colour", "fill", "size", "alpha", "linetype", "label", "vjust", "sample", "pattern")
   e <- TRUE
   for (i in m) {
     if (!is.null(o$mapping[[i]])) {
       e <- FALSE
       l <- rlang::as_label(o$mapping[[i]])
+      l <- stringr::str_replace(stringr::str_replace(stringr::str_replace(l, "factor\\(", ""), "\\)", ""), "as\\.", "")
       if (i == "colour") {
         r[["color"]] <- l
       } else if (i == "label") {
@@ -623,7 +738,7 @@ gg_proc_layer <- function(o, idx, bld) {
           b[[p[1]]] <- c
           r[[a]] <- b
         } else if (f > 0) {
-          b <- stringr::str_replace(stringr::str_replace(b, "factor\\(", ""), "\\)", "")
+          b <- stringr::str_replace(stringr::str_replace(stringr::str_replace(b, "factor\\(", ""), "\\)", ""), "as\\.", "")
           q <- append(q, b)
           if (!(a %in% c("x", "y", "z"))) {
             if (a == "colour") {
@@ -662,25 +777,44 @@ gg_proc_layer <- function(o, idx, bld) {
             next
           }
           b <- l[[p]][[a]]
-          if (!(missing(b)) && is.vector(b)) {
-            f <- regexpr("factor", b)[1]
-            if (is.character(f) && f > 0) {
-              b <- stringr::str_replace(stringr::str_replace(b, "factor\\(", ""), "\\)", "")
-            }
-            if (is.null(r[[a]])) {
-              if (a == "colour") {
-                r[["color"]] <- b
-              } else {
-                r[[a]] <- b
+          if (!missing(b)) {
+              if (is.vector(b)) {
+                  f <- regexpr("factor", b)[1]
+                  if (is.character(f) && f > 0) {
+                      b <- stringr::str_replace(stringr::str_replace(stringr::str_replace(b, "factor\\(", ""), "\\)", ""), "as\\.", "")
+                  }
+                  if (is.null(r[[a]])) {
+                      if (a == "colour") {
+                          r[["color"]] <- b
+                      } else {
+                          r[[a]] <- b
+                      }
+                  }
+              } else if ("formula" %in% class(b)) {
+                  dl <- bld$data[[idx]]
+                  r$formula <- list()
+                  r$formula$def <- deparse(b)
+                  if ("x" %in% colnames(dl) && "y" %in% colnames(dl)) {
+                      r$formula$x <- as.numeric(dl[["x"]])
+                      r$formula$y <- as.numeric(dl[["y"]])
+                  }
+                  if ("ymin" %in% colnames(dl) && "ymax" %in% colnames(dl)) {
+                      r$formula$ymin <- as.numeric(dl[["ymin"]])
+                      r$formula$ymax <- as.numeric(dl[["ymax"]])
+                      max <- bld$layout$panel_scales_y[[1]]$range$range[2]
+                      min <- bld$layout$panel_scales_y[[1]]$range$range[1]
+                      ext <- (max - min) * 0.05
+                      r$formula$minY <- min - ext
+                      r$formula$maxY <- max + ext
+                  }
               }
-            }
           }
         }
       }
     }
   }
   if (!is.na(l$show.legend) && l$show.legend == FALSE) {
-    r$showLegend <- FALSE
+      r$showLegend <- FALSE
   }
   if (length(q) > 0) {
     r$stringVariableFactors <- unique(q)
@@ -814,31 +948,36 @@ data_to_matrix <- function(o, b) {
       }
     }
   }
-  for (i in 1:length(layers)) {
-    q <- class(o$layers[[i]]$geom)[1]
-    if (q != "GeomBlank") {
-      for (j in m) {
-        if (!is.null(o$layers[[i]]$mapping[[j]])) {
-          q <- rlang::as_label(o$layers[[i]]$mapping[[j]])
-          if (q %in% colnames(o$data)) {
-            ## Nothing to do
-          } else if (j == "label" || j == "colour" || j == "fill") {
-            u <- as.character(b$data[[1]][[j]])
-            if (length(u) == length((nd[[1]]))) {
-              nd[q] <- u
-            }
-          } else {
-            u <- as.numeric(b$data[[i]][[j]])
-            if (length(u) == length((nd[[1]]))) {
-              nd[q] <- u
+  if (length(nd) == 0) {
+    nd
+  } else {
+    for (i in 1:length(layers)) {
+      q <- class(o$layers[[i]]$geom)[1]
+      if (q != "GeomBlank") {
+        for (j in m) {
+          if (!is.null(o$layers[[i]]$mapping[[j]])) {
+            q <- rlang::as_label(o$layers[[i]]$mapping[[j]])
+            q <- gsub("\"", "", q)
+            if (q %in% colnames(o$data)) {
+              ## Nothing to do
+            } else if (j == "label" || j == "colour" || j == "fill") {
+              u <- as.character(b$data[[1]][[j]])
+              if (length(u) == length((nd[[1]]))) {
+                nd[q] <- u
+              }
+            } else {
+              u <- as.numeric(b$data[[i]][[j]])
+              if (length(u) == length((nd[[1]]))) {
+                nd[q] <- u
+              }
             }
           }
         }
       }
     }
+    nd <- tibble::add_column(nd, Id = row.names(d), .before = 1)
+    nd <- tibble::add_row(nd, .before = 1)
+    nd[1, ] <- colnames(nd)
+    as.matrix(nd)
   }
-  nd <- tibble::add_column(nd, Id = row.names(d), .before = 1)
-  nd <- tibble::add_row(nd, .before = 1)
-  nd[1, ] <- colnames(nd)
-  as.matrix(nd)
 }
